@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <title>JàngBokk • Bitcoin Learning + Lightning Market</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bitcoin: {
+                50: '#fff7ed',
+                100: '#ffedd5',
+                200: '#fed7aa',
+                300: '#fdba74',
+                400: '#fb923c',
+                500: '#f97316', // orange accent
+                600: '#ea580c',
+                700: '#c2410c',
+                800: '#9a3412',
+                900: '#7c2d12',
+                gold: '#F5C542',
+              },
+              glass: 'rgba(255,255,255,0.06)'
+            },
+            boxShadow: {
+              glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
+            },
+            backdropBlur: {
+              xs: '2px'
+            },
+            fontFamily: {
+              poppins: ['Poppins', 'ui-sans-serif', 'system-ui'],
+              inter: ['Inter', 'ui-sans-serif', 'system-ui']
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="h-full min-h-screen bg-[#0b0b0c] text-white font-inter antialiased">
+    <canvas id="bgParticles" class="fixed inset-0 -z-10"></canvas>
+
+    <header class="sticky top-0 z-40 bg-black/40 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="/index.html" class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-bitcoin-500 to-bitcoin-gold shadow-glass"></div>
+          <span class="font-poppins text-lg font-semibold tracking-wide">JàngBokk</span>
+        </a>
+        <nav class="flex items-center gap-2 sm:gap-4">
+          <a data-i18n="nav_learn" href="/learning.html" class="nav-link">Learn</a>
+          <a data-i18n="nav_market" href="/market.html" class="nav-link">Marketplace</a>
+          <a data-i18n="nav_about" href="/about.html" class="nav-link">About</a>
+          <a data-i18n="nav_dashboard" href="/index.html" class="nav-link">Dashboard</a>
+          <button id="langToggle" class="icon-btn" title="Language">FR</button>
+          <button id="themeToggle" class="icon-btn" title="Theme"><span id="themeIcon">🌙</span></button>
+          <button id="logoutBtn" class="btn btn-outline hidden" data-i18n="logout">Logout</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <section class="grid md:grid-cols-2 gap-6 items-stretch animate-in">
+        <div class="glass p-6 rounded-2xl">
+          <h1 id="welcomeMessage" class="font-poppins text-2xl sm:text-3xl font-bold mb-2">Nanga def?</h1>
+          <p class="text-white/80 mb-6" data-i18n="dashboard_subtitle">Learn Bitcoin, earn sats, and spend with Lightning.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <a href="/learning.html" class="btn btn-primary" data-i18n="cta_learn">Learn Bitcoin</a>
+            <a href="/market.html" class="btn btn-secondary" data-i18n="cta_market">Marketplace</a>
+          </div>
+        </div>
+        <div class="glass p-6 rounded-2xl flex flex-col gap-4">
+          <div>
+            <h2 class="font-poppins text-xl font-semibold mb-2" data-i18n="your_balance">Your Sats Balance</h2>
+            <div class="flex items-center gap-3 mb-1">
+              <span class="text-3xl font-bold" id="satsBalance">0</span>
+              <span class="text-bitcoin-500 text-lg">⚡ sats</span>
+            </div>
+            <p class="text-sm text-white/60" data-i18n="balance_hint">Earn sats by passing quizzes and by selling.</p>
+            <p id="lnbitsStatus" class="text-xs text-white/60 mt-1"></p>
+          </div>
+
+          <div class="grid gap-4">
+            <div class="glass rounded-xl p-4">
+              <h3 class="font-poppins font-semibold mb-2" data-i18n="topup_title">Top up</h3>
+              <form id="topupForm" class="grid gap-2">
+                <div class="grid grid-cols-3 gap-2">
+                  <button type="button" class="topup-provider btn btn-outline" data-provider="mtn" aria-pressed="true">
+                    <img src="/icons/mtn.svg" alt="" class="h-5 w-5" />
+                    <span data-i18n="mtn_momo">MTN MoMo</span>
+                  </button>
+                  <button type="button" class="topup-provider btn btn-outline" data-provider="wave" aria-pressed="true">
+                    <img src="/icons/wave.svg" alt="" class="h-5 w-5" />
+                    <span data-i18n="wave">Wave</span>
+                  </button>
+                  <button type="button" class="topup-provider btn btn-outline" data-provider="other" aria-pressed="false">
+                    <img src="/icons/crypto.svg" alt="" class="h-5 w-5" />
+                    <span data-i18n="other">Other</span>
+                  </button>
+                </div>
+                <input id="topupPhone" class="input" placeholder="Phone (mobile money)" data-i18n-placeholder="phone_placeholder" />
+                <input id="topupAmount" type="number" min="1" class="input" placeholder="Amount (sats)" data-i18n-placeholder="topup_amount_placeholder" />
+                <button id="topupBtn" class="btn btn-primary" data-i18n="topup_button">Top up</button>
+              </form>
+              <p id="topupStatus" class="text-xs text-white/60 mt-2"></p>
+            </div>
+            <div class="glass rounded-xl p-4">
+              <h3 class="font-poppins font-semibold mb-2" data-i18n="send_title">Send</h3>
+              <form id="sendForm" class="grid sm:grid-cols-2 gap-2">
+                <select id="sendType" class="input">
+                  <option value="internal" data-i18n="internal">Internal</option>
+                  <option value="bolt11" data-i18n="lightning">Lightning</option>
+                </select>
+                <input id="sendAmount" type="number" min="1" class="input" placeholder="Amount (sats)" data-i18n-placeholder="amount_placeholder" />
+                <input id="sendRecipient" class="input" placeholder="Recipient email/phone" data-i18n-placeholder="recipient_placeholder" />
+                <textarea id="sendBolt11" class="input h-10" placeholder="BOLT11 invoice" data-i18n-placeholder="bolt11_placeholder"></textarea>
+                <input id="sendMemo" class="input" placeholder="Memo (optional)" data-i18n-placeholder="memo_placeholder" />
+                <button id="sendBtn" class="btn btn-primary" data-i18n="send_now">Send</button>
+              </form>
+              <p class="text-xs text-white/50 mt-2" data-i18n="offline_note_send">Offline? We will queue and send when back online.</p>
+            </div>
+
+            <div class="glass rounded-xl p-4">
+              <h3 class="font-poppins font-semibold mb-2" data-i18n="receive_title">Receive</h3>
+              <div class="grid sm:grid-cols-2 gap-2">
+                <input id="recvAmount" type="number" min="1" class="input" placeholder="Amount (sats)" data-i18n-placeholder="amount_placeholder" />
+                <input id="recvMemo" class="input" placeholder="Memo (optional)" data-i18n-placeholder="memo_placeholder" />
+                <button id="createInvoiceBtn" class="btn btn-secondary" data-i18n="create_invoice">Create invoice</button>
+                <button id="copyInvoiceBtn" class="btn btn-outline" data-i18n="copy">Copy</button>
+              </div>
+              <pre id="invoiceOutput" class="mt-3 p-3 bg-black/40 rounded text-xs overflow-x-auto"></pre>
+              <p class="text-xs text-white/50 mt-2" data-i18n="offline_note_receive">Creating invoices requires internet connectivity.</p>
+            </div>
+
+            <div class="glass rounded-xl p-4">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-poppins font-semibold" data-i18n="outbox_title">Queued transactions</h3>
+                <button id="syncBtn" class="text-xs text-white/70 hover:text-white" data-i18n="sync">Sync</button>
+              </div>
+              <ul id="outboxList" class="space-y-2 text-sm"></ul>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <a href="/about.html" class="inline-block text-bitcoin-gold hover:text-bitcoin-500 transition-colors" data-i18n="learn_more">Learn more about JàngBokk →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-8 grid lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 glass rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-poppins text-lg font-semibold" data-i18n="recent_activity">Recent activity</h3>
+            <button id="clearActivity" class="text-xs text-white/60 hover:text-white/90" data-i18n="clear">Clear</button>
+          </div>
+          <ul id="activityList" class="space-y-3 text-sm"></ul>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <h3 class="font-poppins text-lg font-semibold mb-2" data-i18n="notifications">Notifications</h3>
+          <ul id="notifications" class="space-y-2 text-sm text-white/80">
+            <li class="text-white/60" data-i18n="no_notifications">No notifications yet.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="max-w-6xl mx-auto px-4 py-10 text-center text-xs text-white/50">
+      <p>© <span id="year"></span> JàngBokk • Dakar Bitcoin Hackathon</p>
+    </footer>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+        });
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="/js/lang.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/wallet.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+      // Fix for topup provider button selection
+      document.addEventListener('DOMContentLoaded', function() {
+        const providerButtons = document.querySelectorAll('.topup-provider');
+        providerButtons.forEach(btn => {
+          btn.addEventListener('click', function() {
+            providerButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+            this.setAttribute('aria-pressed', 'true');
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

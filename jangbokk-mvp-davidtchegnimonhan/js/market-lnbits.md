@@ -1,0 +1,1 @@
+Notes: For LNBits to work, set backend/.env LNBITS_API_KEY to a real wallet key. Endpoints used: POST /api/lnbits/invoice, GET /api/lnbits/payment/:hash, GET /api/lnbits/wallet. 

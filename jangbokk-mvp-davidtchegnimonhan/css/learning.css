@@ -1,0 +1,3 @@
+#modulesGrid .card { background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow:hidden; display:flex; flex-direction:column; }
+#modulesGrid .card .cover { height:140px; background: linear-gradient(135deg, rgba(249,115,22,.3), rgba(245,197,66,.2)); }
+#modulesGrid .card .body { padding: 12px; display:flex; flex-direction:column; gap:6px; }

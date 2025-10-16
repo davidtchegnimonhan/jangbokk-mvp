@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login • JàngBokk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="min-h-screen bg-[#0b0b0c] text-white font-inter">
+    <canvas id="bgParticles" class="fixed inset-0 -z-10"></canvas>
+
+    <main class="min-h-screen grid place-items-center p-4">
+      <div class="glass max-w-md w-full rounded-2xl p-6">
+        <a href="/index.html" class="opacity-70 hover:opacity-100">←</a>
+        <h1 class="font-poppins text-2xl font-bold mt-2 mb-6" data-i18n="login_title">Welcome back</h1>
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label class="label" for="loginEmail" data-i18n="email">Email</label>
+            <input id="loginEmail" type="email" class="input" required />
+          </div>
+          <div>
+            <label class="label" for="loginPassword" data-i18n="password">Password</label>
+            <input id="loginPassword" type="password" class="input" required />
+          </div>
+          <button class="btn btn-primary w-full" data-i18n="login">Login</button>
+        </form>
+        <p class="text-sm text-white/70 mt-4" data-i18n="no_account">No account?</p>
+        <a href="/register.html" class="text-bitcoin-gold hover:text-bitcoin-500" data-i18n="create_account">Create one</a>
+      </div>
+    </main>
+
+    <script src="/js/lang.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+        });
+      }
+    </script>
+  </body>
+</html>

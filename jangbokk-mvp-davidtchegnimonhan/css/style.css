@@ -1,0 +1,64 @@
+/* Base theme and components for JàngBokk */
+:root { --glass: rgba(255,255,255,0.06); }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: radial-gradient(1200px 800px at 10% -10%, rgba(251, 146, 60, 0.08), transparent), radial-gradient(1000px 600px at 100% 20%, rgba(245, 197, 66, 0.08), transparent), #0b0b0c; }
+/* Decorative crypto icons */
+body::before, body::after { content: ""; position: fixed; inset: auto; pointer-events: none; opacity: 0.07; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
+body::before { bottom: 10%; left: 2%; width: 80px; height: 80px; background: url('/icons/btc.svg') no-repeat center/contain; }
+body::after { top: 12%; right: 4%; width: 72px; height: 72px; background: url('/icons/crypto.svg') no-repeat center/contain; }
+
+.glass { background: var(--glass); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 32px rgba(31,38,135,0.37); backdrop-filter: blur(8px); }
+
+.input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 14px; outline: none; transition: border 0.2s, background 0.2s; }
+.input:focus { border-color: #f97316; background: rgba(255,255,255,0.1); }
+.label { display:block; margin-bottom:6px; font-size: 12px; color: rgba(255,255,255,0.7); }
+
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 14px; border-radius:14px; font-weight:600; transition: transform .08s ease, background .2s, color .2s; border:1px solid rgba(255,255,255,.12); }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: linear-gradient(135deg, #f97316, #F5C542); color:#0b0b0c; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-secondary { background: rgba(249,115,22,.1); color: #fb923c; border-color: rgba(249,115,22,.3); }
+.btn-secondary:hover { background: rgba(249,115,22,.15); }
+.btn-outline { background: transparent; color: white; }
+.btn-outline:hover { background: rgba(255,255,255,0.06); }
+
+.nav-link { color: rgba(255,255,255,0.8); padding:8px 12px; border-radius: 10px; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color:white; }
+
+.icon-btn { width: 38px; height: 38px; display:inline-grid; place-items:center; border-radius: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); }
+.icon-btn:hover { background: rgba(255,255,255,0.1); }
+
+/* Top-up provider button active state */
+.topup-provider[aria-pressed="true"] { background: linear-gradient(135deg, #f97316, #F5C542); color:#0b0b0c; border-color: transparent; }
+
+.modal { border: none; padding:0; }
+.modal::backdrop { background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
+.modal-box { border-radius: 16px; padding: 16px; border:1px solid rgba(255,255,255,0.12); }
+
+/* Animations */
+.animate-in { animation: fadeUp .5s ease both; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(6px);} to { opacity:1; transform: none; } }
+
+/* Particles canvas size fix */
+#bgParticles { width:100%; height:100%; }
+
+/* Utility */
+.hidden { display:none; }
+
+/* Light theme overrides */
+html[data-theme="light"] body { background: #f6f7fb; color: #0b0b0c; }
+html[data-theme="light"] .glass { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
+html[data-theme="light"] .input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color:#0b0b0c; }
+html[data-theme="light"] .input::placeholder { color: rgba(0,0,0,0.5); }
+html[data-theme="light"] .label { color: rgba(0,0,0,0.6); }
+html[data-theme="light"] .btn-outline { color:#0b0b0c; border-color: rgba(0,0,0,0.2); }
+html[data-theme="light"] .btn-outline:hover { background: rgba(0,0,0,0.05); }
+html[data-theme="light"] .nav-link { color: rgba(0,0,0,0.7); }
+html[data-theme="light"] .nav-link:hover { background: rgba(0,0,0,0.05); color:#0b0b0c; }
+html[data-theme="light"] .icon-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.12); color:#0b0b0c; }
+html[data-theme="light"] .modal-box { border-color: rgba(0,0,0,0.12); }
+html[data-theme="light"] .text-white\/70 { color: rgba(0,0,0,0.6); }
+html[data-theme="light"] .text-white\/80 { color: rgba(0,0,0,0.7); }
+html[data-theme="light"] .text-white\/60 { color: rgba(0,0,0,0.55); }
+html[data-theme="light"] .bg-black\/40 { background: rgba(0,0,0,0.08); }

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marketplace • JàngBokk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/market.css" />
+  </head>
+  <body class="min-h-screen bg-[#0b0b0c] text-white font-inter">
+    <canvas id="bgParticles" class="fixed inset-0 -z-10"></canvas>
+
+    <header class="sticky top-0 z-40 bg-black/40 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="/index.html" class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-bitcoin-500 to-bitcoin-gold shadow-glass"></div>
+          <span class="font-poppins text-lg font-semibold tracking-wide">JàngBokk</span>
+        </a>
+        <nav class="flex items-center gap-2 sm:gap-4">
+          <a data-i18n="nav_learn" href="/learning.html" class="nav-link">Learn</a>
+          <a data-i18n="nav_dashboard" href="/index.html" class="nav-link">Dashboard</a>
+          <button id="langToggle" class="icon-btn">FR</button>
+          <button id="themeToggle" class="icon-btn"><span id="themeIcon">🌙</span></button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <section class="glass rounded-2xl p-4 sm:p-6">
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+          <div class="flex-1 flex gap-2">
+            <input id="searchInput" class="input flex-1" placeholder="Search products" data-i18n-placeholder="search_placeholder" />
+            <select id="categoryFilter" class="input w-40">
+              <option value="all" data-i18n="all">All</option>
+              <option value="food" data-i18n="food">Food</option>
+              <option value="services" data-i18n="services">Services</option>
+              <option value="digital" data-i18n="digital">Digital</option>
+            </select>
+          </div>
+          <button id="openSeller" class="btn btn-outline" data-i18n="sell">Sell</button>
+        </div>
+      </section>
+
+      <section id="productsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6"></section>
+
+      <dialog id="sellDialog" class="modal">
+        <form method="dialog" class="modal-box glass">
+          <h3 class="font-poppins text-lg font-semibold mb-3" data-i18n="sell_title">Add a product/service</h3>
+          <div class="space-y-3">
+            <input id="sellTitle" class="input w-full" placeholder="Title" data-i18n-placeholder="title_placeholder" />
+            <textarea id="sellDesc" class="input w-full h-24" placeholder="Description" data-i18n-placeholder="description_placeholder"></textarea>
+            <input id="sellPrice" type="number" min="1" class="input w-full" placeholder="Price (sats)" data-i18n-placeholder="price_placeholder" />
+            <input id="sellImage" class="input w-full" placeholder="Image URL" data-i18n-placeholder="image_url_placeholder" />
+            <div class="grid grid-cols-2 gap-2">
+              <label class="btn btn-outline">
+                <input id="sellFile" type="file" accept="image/*" class="hidden" />
+                <span data-i18n="sell_upload">Upload photo</span>
+              </label>
+              <label class="btn btn-outline">
+                <input id="sellCamera" type="file" accept="image/*" capture="environment" class="hidden" />
+                <span data-i18n="sell_camera">Take photo</span>
+              </label>
+            </div>
+            <select id="sellCategory" class="input w-full">
+              <option value="food">Food</option>
+              <option value="services">Services</option>
+              <option value="digital">Digital</option>
+            </select>
+          </div>
+          <div class="mt-5 flex gap-2">
+            <button id="saveListing" class="btn btn-primary" data-i18n="save">Save</button>
+            <button class="btn btn-outline" value="cancel" data-i18n="close">Close</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog id="invoiceDialog" class="modal">
+        <form method="dialog" class="modal-box glass">
+          <h3 class="font-poppins text-lg font-semibold mb-2" data-i18n="invoice_title">Lightning Invoice</h3>
+          <p class="text-sm text-white/70" data-i18n="invoice_hint">Pay this invoice with your Lightning wallet:</p>
+          <pre id="invoiceBolt11" class="mt-3 p-3 bg-black/40 rounded text-xs overflow-x-auto"></pre>
+          <div id="invoiceStatus" class="text-sm text-white/80 mt-2"></div>
+          <div class="mt-4 flex gap-2">
+            <button class="btn btn-outline" value="cancel" data-i18n="close">Close</button>
+          </div>
+        </form>
+      </dialog>
+    </main>
+
+    <script src="/js/lang.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/market.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+        });
+      }
+    </script>
+  </body>
+</html>

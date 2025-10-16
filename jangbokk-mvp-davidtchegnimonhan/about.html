@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About • JàngBokk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="min-h-screen bg-[#0b0b0c] text-white font-inter">
+    <canvas id="bgParticles" class="fixed inset-0 -z-10"></canvas>
+
+    <header class="sticky top-0 z-40 bg-black/40 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="/index.html" class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-bitcoin-500 to-bitcoin-gold shadow-glass"></div>
+          <span class="font-poppins text-lg font-semibold tracking-wide">JàngBokk</span>
+        </a>
+        <nav class="flex items-center gap-2 sm:gap-4">
+          <a data-i18n="nav_learn" href="/learning.html" class="nav-link">Learn</a>
+          <a data-i18n="nav_market" href="/market.html" class="nav-link">Marketplace</a>
+          <a data-i18n="nav_dashboard" href="/index.html" class="nav-link">Dashboard</a>
+          <button id="langToggle" class="icon-btn">FR</button>
+          <button id="themeToggle" class="icon-btn"><span id="themeIcon">🌙</span></button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-10 space-y-6">
+      <section class="glass p-6 rounded-2xl">
+        <h1 class="font-poppins text-3xl font-bold mb-3" data-i18n="about_title">About JàngBokk</h1>
+        <p class="text-white/80" data-i18n="about_body1">JàngBokk empowers people in Senegal to learn Bitcoin, earn sats by succeeding quizzes, and spend them instantly in a Lightning marketplace.</p>
+      </section>
+      <section class="glass p-6 rounded-2xl grid md:grid-cols-3 gap-4">
+        <div>
+          <h3 class="font-poppins font-semibold" data-i18n="about_learn">Learn</h3>
+          <p class="text-white/70 text-sm" data-i18n="about_learn_desc">Engaging modules with short quizzes and instant feedback.</p>
+        </div>
+        <div>
+          <h3 class="font-poppins font-semibold" data-i18n="about_earn">Earn</h3>
+          <p class="text-white/70 text-sm" data-i18n="about_earn_desc">Get small rewards in sats for successful learning.</p>
+        </div>
+        <div>
+          <h3 class="font-poppins font-semibold" data-i18n="about_spend">Spend</h3>
+          <p class="text-white/70 text-sm" data-i18n="about_spend_desc">Use Lightning to buy products and services from local sellers.</p>
+        </div>
+      </section>
+      <section class="grid sm:grid-cols-2 gap-4">
+        <a href="/learning.html" class="btn btn-primary" data-i18n="cta_learn">Start learning</a>
+        <a href="/market.html" class="btn btn-secondary" data-i18n="cta_market">Explore marketplace</a>
+      </section>
+    </main>
+
+    <footer class="max-w-6xl mx-auto px-4 py-10 text-center text-xs text-white/50">
+      <p>© <span id="year"></span> JàngBokk • Dakar Bitcoin Hackathon</p>
+    </footer>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+        });
+      }
+    </script>
+    <script src="/js/lang.js"></script>
+    <script src="/js/ui.js"></script>
+  </body>
+</html>
