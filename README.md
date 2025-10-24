@@ -1,143 +1,173 @@
 
 
-# 🧠⚡ JàngBokk — Learn & Earn Bitcoin in Senegal
+# Jangbokk – Lightning-Powered Payment Platform
 
-## 🌍 Overview
-
-**JàngBokk** (“Apprendre & Partager” en wolof) est une plateforme éducative et financière qui combine **l’apprentissage du Bitcoin** et **les paiements Lightning Network** pour les Sénégalais.
-Elle permet aux utilisateurs d’apprendre les fondamentaux du Bitcoin, de gagner des sats (petites unités de bitcoin), d’envoyer, de recevoir et même de vendre via un mini-marché intégré.
-
-> Inspiré par les défis d’inclusion financière et d’accès à l’éducation numérique en Afrique de l’Ouest.
+**Jangbokk** is a Lightning-enabled platform built on top of **LNbits** and **FastAPI** that allows users to manage wallets, process payments, and integrate Lightning capabilities into their own applications.
 
 ---
 
-## 🚀 Features
+## ⚙️ Features
 
-✅ **Register & Login** — Crée un compte sécurisé avec email, téléphone et mot de passe.
-✅ **Learn Bitcoin** — Accède à des modules éducatifs interactifs et à des quiz.
-✅ **Earn Sats** — Gagne des récompenses Lightning (LNbits) en apprenant.
-✅ **Send / Receive Bitcoin** — Génère des factures (invoices) Lightning et suis les paiements.
-✅ **Marketplace** — Vends ou achète des biens/services en utilisant des sats.
-✅ **Dashboard utilisateur** — Consulte ton solde, ton niveau d’apprentissage et tes transactions.
-✅ **Multi-langue (Français / Wolof)** — Pour une expérience locale et inclusive.
-✅ **About Page** — Explication détaillée du fonctionnement de la plateforme.
+* 💰 Create and manage Lightning wallets
+* ⚡ Send and receive Lightning payments
+* 🔌 API integration for developers
+* 🪙 Optional LNbits-based backend support
+* 🧩 Modular architecture for easy extension
 
 ---
 
-## ⚙️ Tech Stack
+## 🧠 Requirements
 
-**Frontend:**
+Make sure you have the following installed on your system:
 
-* HTML5, CSS3, TailwindCSS
-* JavaScript (Vanilla JS)
-* Responsive UI/UX
-
-**Backend:**
-
-* Node.js + Express
-* LNbits API Integration
-* JSON storage (pending & settled invoices)
-* Environment variables (.env)
-
-**Bitcoin / Lightning Integration:**
-
-* LNbits (`https://legend.lnbits.com`)
-* Mempool.space API
-* (Optionnel) Bitcoin Core RPC via le fichier `Dakar Bitcoin Days - Mempool.space.ipynb`
+| Tool                                             | Description                                     |
+| ------------------------------------------------ | ----------------------------------------------- |
+| [Python 3.12](https://www.python.org/downloads/) | Backend runtime                                 |
+| [Git](https://git-scm.com/downloads)             | Clone the repository                            |
+| [Rust](https://www.rust-lang.org/tools/install)  | For compiling dependencies like `pydantic-core` |
+| [Node.js](https://nodejs.org/en/download/)       | (Optional) For frontend builds                  |
+| [MSYS2 (Windows only)](https://www.msys2.org/)   | Provides `pkg-config`, `make`, and other tools  |
 
 ---
 
-## 🔑 Environment (.env)
+## 🧩 Setup on Windows (Recommended Path)
+
+### 1️⃣ Clone the project
 
 ```bash
-LNBITS_URL=https://legend.lnbits.com
-LNBITS_API_KEY=EXAMPLE_ADMIN_KEY_FOR_TEST
-APP_API_KEY=EXAMPLE_APP_KEY
-PORT=3001
-```
-
-*(Déjà prêt à l’emploi pour les tests — aucun changement requis.)*
-
----
-
-## 🧩 Project Structure
-
-```
-jangbokk/
-│
-├── backend/
-│   ├── server.js          # Express server with LNbits proxy
-│   ├── pending_invoices.json
-│   ├── settled_invoices.json
-│   └── .env
-│
-├── frontend/
-│   ├── index.html         # Homepage + dashboard
-│   ├── login.html
-│   ├── register.html
-│   ├── about.html
-│   ├── market.html
-│   ├── learn.html
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       ├── app.js
-│       ├── auth.js
-│       └── lnbits.js
-│
-├── README.md
-└── package.json
-```
-
----
-
-## 🧠 How It Works
-
-1. **User registers or logs in**
-
-   * Data stored locally (demo mode)
-2. **Dashboard shows balance + learning level**
-3. **User clicks “Earn Sats”**
-
-   * Backend creates Lightning invoice via LNbits
-   * Invoice tracked until paid
-4. **Upon payment**
-
-   * Webhook confirms it and updates `settled_invoices.json`
-5. **Marketplace allows sales with sats**
-
----
-
-## 🧪 Run Locally
-
-```bash
-# 1️⃣ Clone repo
 git clone https://github.com/yourusername/jangbokk.git
-cd jangbokk/backend
-
-# 2️⃣ Install dependencies
-npm install express axios cors dotenv
-
-# 3️⃣ Run server
-node server.js
-
-# 4️⃣ Open frontend
-cd ../frontend
-open index.html
+cd jangbokk
 ```
 
+### 2️⃣ Install Python 3.12 and create a virtual environment
+
+```bash
+py -3.12 -m venv venv
+venv\Scripts\activate
+```
+
+### 3️⃣ Upgrade `pip`
+
+```bash
+python -m pip install --upgrade pip
+```
+
+### 4️⃣ Install MSYS2 build tools (if not already)
+
+Open **MSYS2 MinGW 64-bit shell** and run:
+
+```bash
+pacman -Syu
+pacman -S mingw-w64-x86_64-toolchain pkg-config make automake autoconf libtool
+```
+
+> ⚠️ If you’re prompted for selections, press **Enter** to install all.
+
+### 5️⃣ Install dependencies
+
+```bash
+pip install fastapi uvicorn jinja2 requests sqlalchemy aiosqlite python-dotenv secp256k1
+```
+
+If `secp256k1` fails to build, ensure:
+
+* Rust is installed (`rustc --version`)
+* MSYS2 tools are on PATH
+* Then retry the install command.
+
 ---
 
-## 🎯 Goals for Dakar Bitcoin Hack
+## 🚀 Running the Backend
 
-* 🌐 Promouvoir l’éducation Bitcoin au Sénégal
-* ⚡ Utiliser Lightning pour des micro-paiements rapides et locaux
-* 💡 Fournir un outil open-source utile à la communauté
+Run the FastAPI backend with:
+
+```bash
+python -m uvicorn lnbits.__main__:app --host 127.0.0.1 --port 5000 --reload
+```
+
+Once running, open your browser at:
+👉 **[http://127.0.0.1:5000](http://127.0.0.1:5000)**
+
+You should see the backend API running.
 
 ---
 
-## 🧑‍💻 Team
+## 🧰 Using the LNbits-Based Script (Alternative)
 
-**David Tchegnimonhan & Kevin (HKU)**
-Building together for Dakar Bitcoin Hackathon 🧡
+Jangbokk can also bootstrap using the LNbits script included in the repo:
 
+```bash
+bash lnbits.sh
+```
+
+This script will:
+
+* Install `uv`
+* Clone LNbits inside the project
+* Create a `.venv` automatically
+* Install dependencies
+* Launch LNbits
+
+If you see:
+
+```
+'pkg-config' is required to install this package.
+```
+
+then return to MSYS2 and make sure `pkg-config` is installed (see Step 4 above).
+
+---
+
+## 🧪 Testing the API
+
+Test if the backend is working:
+
+```bash
+curl -i http://127.0.0.1:5000/
+```
+
+Expected response:
+
+```
+HTTP/1.1 200 OK
+...
+```
+
+
+
+---
+
+## 🧰 Troubleshooting
+
+| Issue                        | Solution                                   |
+| ---------------------------- | ------------------------------------------ |
+| `pkg-config missing`         | Install via MSYS2: `pacman -S pkg-config`  |
+| `pydantic-core build failed` | Use Python 3.12 (not 3.13)                 |
+| `uvicorn not found`          | Run `pip install uvicorn` inside your venv |
+| `secp256k1` install error    | Ensure Rust + build tools are on PATH      |
+
+---
+
+## 🌐 Deployment (Optional)
+
+To run in production:
+
+```bash
+uvicorn lnbits.__main__:app --host 0.0.0.0 --port 8000
+```
+
+You can also use **Docker** or **NGINX reverse proxy** for HTTPS setup.
+
+---
+
+## 🧑‍💻 Contributing
+
+Pull requests are welcome!
+To contribute:
+
+1. Fork the repo
+2. Create a feature branch
+3. Commit and push changes
+4. Submit a pull request
+
+-
